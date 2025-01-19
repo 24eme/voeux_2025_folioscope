@@ -40,8 +40,13 @@ do
   rm $OUTPUTDIR/final_$(printf "%02d" $i).tmp.png;
 done
 
+rm -rf $OUTPUTDIR/png
+
 ls $OUTPUTDIR/final_*.png | while read file; do
   convert -units PixelsPerInch -density 300 $file $file.pdf
+  rm $file;
 done
 
 pdftk $OUTPUTDIR/final_*.pdf cat output $OUTPUTDIR/final.pdf
+
+rm -rf  $OUTPUTDIR/final_*.pdf
