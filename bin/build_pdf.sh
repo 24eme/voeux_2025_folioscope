@@ -11,8 +11,8 @@ rotate="-rotate 0" #portrait
 ls $SVGDIR/*.svg | while read file; do
   SVGFILE=$(echo -n $filegrep | sed 's|^.*/||');
 
-  inkscape $file -h 483 -o $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
-  convert $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).tmp.png -extent 1240x584-440-67 -background white -font FreeMono -pointsize 30 -draw "fill 'RGB(0,0,0)' text 20,40 '$(printf "%02d" $(($i + 1)))'" -draw "line 0,0 0,30 line 0,50 0,80 line 0,0 30,0 line 50,0 80,0 line 0,583 30,583 line 50,583 80,583 line 0,583 0,553 line 0,543 0,513" $rotate $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).png
+  inkscape $file -h 484 -o $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
+  convert $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).tmp.png -extent 1240x584-380-50 -background white -font FreeMono -pointsize 30 -draw "fill 'RGB(0,0,0)' text 20,40 '$(printf "%02d" $(($i + 1)))'" -draw "line 0,0 0,30 line 0,50 0,80 line 0,0 30,0 line 50,0 80,0 line 0,583 30,583 line 50,583 80,583 line 0,583 0,553 line 0,543 0,513" $rotate $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).png
   rm $OUTPUTDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
 
   i=$(($i + 1))
