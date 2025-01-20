@@ -21,7 +21,7 @@ ls $SVGDIR/*.svg | while read file; do
   SVGFILE=$(echo -n $file | sed 's|^.*/||');
   sed "s/%s1%/$SENTENCE_1/" $file | sed "s/%s2%/$SENTENCE_2/" | sed "s/%s3%/$SENTENCE_3/" > $TMPDIR/svg/$SVGFILE
   inkscape $TMPDIR/svg/$SVGFILE -h 484 -o $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
-  convert $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png -extent 1240x584-380-50 -background white -font FreeMono -pointsize 30 -draw "fill 'RGB(0,0,0)' text 40,40 '$(printf "%02d" $(($i + 1)))'" -draw "line 20,0 20,50 line 20,80 20,130 line 20,0 70,0 line 100,0 150,0 line 20,583 70,583 line 100,583 150,583 line 20,583 20,533 line 20,503 20,453" $rotate $TMPDIR/png/$(printf "%02d" $(($i + 1))).png
+  convert $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png -extent 1240x584-380-50 -background white -font FreeMono -pointsize 30 -draw "fill 'RGB(0,0,0)' text 40,40 '$(printf "%02d" $(($i + 1)))'" -draw "line 30,0 30,50 line 30,80 30,130 line 30,0 80,0 line 110,0 160,0 line 30,583 80,583 line 110,583 160,583 line 30,583 30,533 line 30,503 30,453" $rotate $TMPDIR/png/$(printf "%02d" $(($i + 1))).png
   rm $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
 
   i=$(($i + 1))
