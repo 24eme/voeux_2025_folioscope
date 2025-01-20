@@ -7,11 +7,12 @@ SENTENCE_2=$4
 SENTENCE_3=$5
 
 SVGDIR=templates/$TEMPLATENAME
-OUTPUTDIR=output/verso
+OUTPUTDIR=output
 TMPDIR=/tmp/voeux_$(date +%Y%m%d%H%M%S)
 
-mkdir -p $OUTPUTDIR
+mkdir -p $OUTPUTDIR/sketchs
 mkdir -p $TMPDIR/png
+mkdir -p $TMPDIR/pngcouvertures
 mkdir -p $TMPDIR/svg
 
 i=0
@@ -54,7 +55,18 @@ done
 
 pdftk $TMPDIR/final_*.pdf cat output $TMPDIR/final.pdf
 
-cp $TMPDIR/final.pdf $OUTPUTDIR/$UNIQUEIDENTIFIANT.pdf
-rm -rf  $TMPDIR
+cp $TMPDIR/final.pdf $OUTPUTDIR/sketchs/$UNIQUEIDENTIFIANT.pdf
+pdftk $OUTPUTDIR/sketchs/*.pdf cat output $OUTPUTDIR/sketchs.pdf
 
-pdftk $OUTPUTDIR/*.pdf cat output $OUTPUTDIR/../verso.pdf
+for i in $(seq 1 6)
+do
+  inkscape templates/couverture.svg -o $TMPDIR/pngcouvertures/$(printf "%02d" $(($i))).png
+done
+
+montage -geometry +0+0 -tile 1 $(ls $TMPDIR/pngcouvertures/*.png) $TMPDIR/couvertures.tmp.png
+convert -extent 2480x3508+0-2 $TMPDIR/couvertures.tmp.png $TMPDIR/couvertures.png
+convert -units PixelsPerInch -density 300 $TMPDIR/couvertures.png $TMPDIR/couvertures.pdf
+
+cp $TMPDIR/couvertures.pdf $OUTPUTDIR/couvertures.pdf
+
+rm -rf  $TMPDIR
