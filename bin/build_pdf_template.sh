@@ -8,19 +8,25 @@ DESTINATAIRE=$5
 ORGANISME=$6
 
 KEY="$(echo $DESTINATAIRE | sed -r 's/[^a-zA-Z0-9]*//g' | sed -r 's/^(.{15}).*$/\1/')_$(echo $ORGANISME | sed -r 's/[^a-zA-Z0-9]*//g' | sed -r 's/^(.{15}).*$/\1/')"
-KEY=$(echo $KEY | tr [:lower:] [:upper:] | sed 's/[éèê]/e/g' | sed 's/[àầ]/a/g' | sed 's/[ûù]/u/g' | sed 's/[î]/i/g' | sed 's/[ô]/o/g')
-
-echo $KEY
+KEY=$(echo $KEY | tr [:lower:] [:upper:] | sed 's/[éèêëÉ]/E/g' | sed 's/[àầ]/A/g' | sed 's/[ûù]/U/g' | sed 's/[îï]/I/g' | sed 's/[ô]/O/g' | sed 's/ç/C/g')
 
 SVGDIR=templates/$TEMPLATENAME
 OUTPUTDIR=output
 TMPDIR=/tmp/voeux_$(date +%Y%m%d%H%M%S)
 UNIQUEIDENTIFIANT=$KEY
 
+if test -f $OUTPUTDIR/sketchs/$UNIQUEIDENTIFIANT.pdf && test -f $OUTPUTDIR/couvertures/$UNIQUEIDENTIFIANT.png;
+then
+  exit;
+fi
+
+echo $KEY
+
 mkdir -p $OUTPUTDIR/sketchs
 mkdir -p $TMPDIR/png
 mkdir -p $TMPDIR/pngcouvertures
 mkdir -p $TMPDIR/svg
+mkdir -p $TMPDIR/couv
 
 convert -pointsize 30 -background transparent -font FreeMono -gravity center -fill black label:"$KEY" -rotate -90 -trim +repage $TMPDIR/key.png
 
@@ -67,17 +73,10 @@ done
 pdftk $TMPDIR/final_*.pdf cat output $TMPDIR/final.pdf
 
 cp $TMPDIR/final.pdf $OUTPUTDIR/sketchs/$UNIQUEIDENTIFIANT.pdf
-pdftk $OUTPUTDIR/sketchs/*.pdf cat output $OUTPUTDIR/sketchs.pdf
 
-for i in $(seq 1 6)
-do
-  inkscape templates/couverture.svg -o $TMPDIR/pngcouvertures/$(printf "%02d" $(($i))).png
-done
+sed "s/%destinataire%/$DESTINATAIRE/" templates/couverture.svg > $TMPDIR/couv/$UNIQUEIDENTIFIANT.svg
+inkscape $TMPDIR/couv/$UNIQUEIDENTIFIANT.svg -o $TMPDIR/couv/$UNIQUEIDENTIFIANT.png
 
-montage -geometry +0+0 -tile 1 $(ls $TMPDIR/pngcouvertures/*.png) $TMPDIR/couvertures.tmp.png
-convert -extent 2480x3508+0-2 $TMPDIR/couvertures.tmp.png $TMPDIR/couvertures.png
-convert -units PixelsPerInch -density 300 $TMPDIR/couvertures.png $TMPDIR/couvertures.pdf
-
-cp $TMPDIR/couvertures.pdf $OUTPUTDIR/couvertures.pdf
+cp $TMPDIR/couv/$UNIQUEIDENTIFIANT.png $OUTPUTDIR/couvertures/$UNIQUEIDENTIFIANT.png
 
 rm -rf  $TMPDIR
