@@ -1,28 +1,39 @@
 #!/bin/bash
 
 TEMPLATENAME=$1
-UNIQUEIDENTIFIANT=$2
-SENTENCE_1=$3
-SENTENCE_2=$4
-SENTENCE_3=$5
+SENTENCE_1=$2
+SENTENCE_2=$3
+SENTENCE_3=$4
+DESTINATAIRE=$5
+ORGANISME=$6
+
+KEY="$(echo $DESTINATAIRE | sed -r 's/[^a-zA-Z0-9]*//g' | sed -r 's/^(.{15}).*$/\1/')_$(echo $ORGANISME | sed -r 's/[^a-zA-Z0-9]*//g' | sed -r 's/^(.{15}).*$/\1/')"
+KEY=$(echo $KEY | tr [:lower:] [:upper:] | sed 's/[éèê]/e/g' | sed 's/[àầ]/a/g' | sed 's/[ûù]/u/g' | sed 's/[î]/i/g' | sed 's/[ô]/o/g')
+
+echo $KEY
 
 SVGDIR=templates/$TEMPLATENAME
 OUTPUTDIR=output
 TMPDIR=/tmp/voeux_$(date +%Y%m%d%H%M%S)
+UNIQUEIDENTIFIANT=$KEY
 
 mkdir -p $OUTPUTDIR/sketchs
 mkdir -p $TMPDIR/png
 mkdir -p $TMPDIR/pngcouvertures
 mkdir -p $TMPDIR/svg
 
+convert -pointsize 30 -background transparent -font FreeMono -gravity center -fill black label:"$KEY" -rotate -90 -trim +repage $TMPDIR/key.png
+
 i=0
 rotate="-rotate 180" #portrait
 ls $SVGDIR/*.svg | while read file; do
   SVGFILE=$(echo -n $file | sed 's|^.*/||');
   sed "s/%s1%/$SENTENCE_1/" $file | sed "s/%s2%/$SENTENCE_2/" | sed "s/%s3%/$SENTENCE_3/" > $TMPDIR/svg/$SVGFILE
-  inkscape $TMPDIR/svg/$SVGFILE -h 484 -o $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
-  convert $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png -extent 1240x584-380-50 -background white -font FreeMono -pointsize 30 -draw "fill 'RGB(0,0,0)' text 40,40 '$(printf "%02d" $(($i + 1)))'" -draw "line 30,0 30,50 line 30,80 30,130 line 30,0 80,0 line 110,0 160,0 line 30,583 80,583 line 110,583 160,583 line 30,583 30,533 line 30,503 30,453" $rotate $TMPDIR/png/$(printf "%02d" $(($i + 1))).png
+  inkscape $TMPDIR/svg/$SVGFILE -h 484 -o $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png 2> /dev/null
+  convert $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png -extent 1240x584-380-50 -background white -page +70+75 $TMPDIR/key.png -flatten $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.tmp.png
+  convert $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.tmp.png -font FreeMono -pointsize 30 -draw "fill 'RGB(0,0,0)' text 60,50 '$(printf "%02d" $(($i + 1)))'" -draw "line 30,0 30,50 line 30,80 30,130 line 30,0 80,0 line 110,0 160,0 line 30,583 80,583 line 110,583 160,583 line 30,583 30,533 line 30,503 30,453" $rotate $TMPDIR/png/$(printf "%02d" $(($i + 1))).png
   rm $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.png
+  rm $TMPDIR/png/$(printf "%02d" $(($i + 1))).tmp.tmp.png
 
   i=$(($i + 1))
 
