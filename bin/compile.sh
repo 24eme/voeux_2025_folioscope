@@ -37,3 +37,10 @@ pdftk $TMPDIR/pdf/*.pdf cat output $OUTPUTDIR/couvertures.pdf
 # Compilation des sketchs
 
 pdftk $OUTPUTDIR/sketchs/*.pdf cat output $OUTPUTDIR/sketchs.pdf
+
+# Gif vers webm
+
+ls $OUTPUTDIR/gif/*.gif | while read file; do
+  rm $file.webm 2> /dev/null
+  ffmpeg -i "$file" -c:v libvpx-vp9 -pix_fmt yuva420p "$file.webm"
+done

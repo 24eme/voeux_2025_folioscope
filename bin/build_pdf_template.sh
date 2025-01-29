@@ -79,4 +79,6 @@ inkscape $TMPDIR/couv/$UNIQUEIDENTIFIANT.svg -o $TMPDIR/couv/$UNIQUEIDENTIFIANT.
 
 cp $TMPDIR/couv/$UNIQUEIDENTIFIANT.png $OUTPUTDIR/couvertures/$UNIQUEIDENTIFIANT.png
 
+convert -delay 20 -loop 1 $TMPDIR/svg/*.svg $OUTPUTDIR/gif/$UNIQUEIDENTIFIANT.gif
+
 rm -rf  $TMPDIR
