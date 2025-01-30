@@ -44,7 +44,7 @@ Générer un folioscope d'exemple pour chacun des templates existant :
 ls templates | grep -v ".svg" | while read template; do bash bin/build_pdf_template.sh $template "Le 24ème vous" "souhaite une douce" "et belle année 2025 !" "example_$template" "24eme"; done
 ```
 
-Ce script va générer 2 pdfs :
+Ce script va générer 2 pdfs prêt à être imprimer :
 
 - [Le pdf des vignettes](https://github.com/24eme/voeux_2025_folioscope/blob/master/example/sketchs.pdf)
 - [Le pdf des couvertures](https://github.com/24eme/voeux_2025_folioscope/blob/master/example/couvertures.pdf)
