@@ -1,6 +1,6 @@
 # Voeux 2025
 
-Scripts et template svg qui permettent de générer les pdf des vignettes et couvertures avec les traits de coupes pour imprimer les folioscopes des voeux du 24ème : https://24eme.fr/2025/
+Script et template svg qui permettent de générer les pdf des vignettes et couvertures avec les traits de coupes pour imprimer les folioscopes des voeux du 24ème : https://24eme.fr/2025/
 
 Tout le code est sous licence libre AGPL-3.0.
 
