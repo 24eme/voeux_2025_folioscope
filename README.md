@@ -6,7 +6,7 @@ Tout le code est sous licence libre AGPL-3.0.
 
 ## Dépendances
 
-Les paquets `inkscape`, `imagemagick`, (optionnelement `ffmpeg`) son nécessaire au fonctionnement
+Les paquets `inkscape`, `imagemagick` son nécessaire au fonctionnement des scripts.
 
 ## Utilisation
 
@@ -19,7 +19,7 @@ bash bin/build_pdf_template.sh gabriel test "Bonne année 2025" "Test, nos meill
 
 ```
 
-La liste des templates disponible se trouvent dans le dossier [template](https://github.com/24eme/voeux_2025_folioscope/tree/master/templates);
+La liste des templates disponible se trouvent dans le dossier [template](https://github.com/24eme/voeux_2025_folioscope/tree/master/templates).
 
 Les différents fichiers seront générés dans le dossier `output` à la racine du projet.
 
