@@ -6,7 +6,7 @@ Tout le code est sous licence libre AGPL-3.0.
 
 ## Dépendances
 
-Les paquets `inkscape`, `imagemagick` son nécessaire au fonctionnement des scripts.
+Les paquets `inkscape`, `imagemagick` sont nécessaire au fonctionnement des scripts.
 
 ## Utilisation
 
