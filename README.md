@@ -4,6 +4,10 @@ Script et template svg qui permettent de générer les pdf des vignettes et couv
 
 Tout le code est sous licence libre AGPL-3.0.
 
+## Dépendances
+
+Les paquets `inkscape`, `imagemagick`, (optionnelement `ffmpeg`) son nécessaire au fonctionnement
+
 ## Utilisation
 
 Pour générer le PDF des vignettes d'un folioscope avec l'image de sa couverture :
@@ -27,8 +31,7 @@ Pour générer plusieurs folioscope à l'aide d'un fichier csv avec des ';' comm
 cat /path/csvfile | sed 's/^*//' | awk -F ";" '{ gsub(/[ \t]+$/, "", $1); gsub(/[ \t]+$/, "", $2); gsub(/[ \t]+$/, "", $3); print "bash bin/build_pdf_template.sh " $4 " \"" $1 "\" \"" $2 "\" \"" $3 "\" \"" $5 "\" \"" $6 "\""}' | bash
 ```
 
-Générer un pdf contenant tous les folioscopes et toutes les couvertures qui sont présents dans le dossier `output`
-
+Compiler tous les folioscope qui sont présents dans le dossier `output` dans un seul pdf contenant toutes les vignetes et un autre toutes les couvertures :
 
 ```
 bash bin/compile.sh
