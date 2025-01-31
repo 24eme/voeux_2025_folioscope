@@ -23,6 +23,8 @@ fi
 echo $KEY
 
 mkdir -p $OUTPUTDIR/sketchs
+mkdir -p $OUTPUTDIR/couvertures
+mkdir -p $OUTPUTDIR/gif
 mkdir -p $TMPDIR/png
 mkdir -p $TMPDIR/pngcouvertures
 mkdir -p $TMPDIR/svg
